@@ -108,14 +108,24 @@ class _WaveViewState extends State<WaveView> with TickerProviderStateMixin {
               child: Container(
                 decoration: BoxDecoration(
                   color: FitnessAppTheme.nearlyDarkBlue,
-                  gradient: LinearGradient(
-                    colors: [
-                      FitnessAppTheme.nearlyDarkBlue.withOpacity(0.4),
-                      FitnessAppTheme.nearlyDarkBlue
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                  gradient: widget.percentageValue.round() >= 50
+                      ? LinearGradient(
+                          colors: [
+                            FitnessAppTheme.nearlyDarkBlue.withOpacity(0.4),
+                            FitnessAppTheme.nearlyDarkBlue
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        )
+                      : LinearGradient(
+                          colors: [
+                            const Color.fromARGB(255, 197, 38, 38)
+                                .withOpacity(0.4),
+                            const Color.fromARGB(255, 197, 38, 38)
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(80.0),
                       bottomLeft: Radius.circular(80.0),

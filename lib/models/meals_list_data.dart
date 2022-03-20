@@ -4,47 +4,53 @@ class MealsListData {
     this.titleTxt = '',
     this.startColor = '',
     this.endColor = '',
-    this.meals,
-    this.kacl = 0,
+    // this.meals,
+    this.total = 0,
+    this.patients = 0,
   });
 
   String imagePath;
   String titleTxt;
   String startColor;
   String endColor;
-  List<String>? meals;
-  int kacl;
+  // List<String>? meals;
+  int total;
+  int patients;
 
   static List<MealsListData> tabIconsList = <MealsListData>[
     MealsListData(
       imagePath: 'assets/fitness_app/breakfast.png',
       titleTxt: 'Main Station',
-      kacl: 525,
-      meals: <String>['Bread,', 'Peanut butter,', 'Apple'],
+      total: 64,
+      patients: 1,
+      // meals: <String>['Bread,', 'Peanut butter,', 'Apple'],
       startColor: '#FA7D82',
       endColor: '#FFB295',
     ),
     MealsListData(
       imagePath: 'assets/fitness_app/lunch.png',
       titleTxt: 'Station A',
-      kacl: 602,
-      meals: <String>['Salmon,', 'Mixed veggies,', 'Avocado'],
+      total: 43,
+      patients: 2,
+      // meals: <String>['Salmon,', 'Mixed veggies,', 'Avocado'],
       startColor: '#738AE6',
       endColor: '#5C5EDD',
     ),
     MealsListData(
       imagePath: 'assets/fitness_app/snack.png',
       titleTxt: 'Station B',
-      kacl: 0,
-      meals: <String>['Recommend:', '800 kcal'],
+      total: 37,
+      patients: 3,
+      // meals: <String>['Recommend:', '800 kcal'],
       startColor: '#FE95B6',
       endColor: '#FF5287',
     ),
     MealsListData(
       imagePath: 'assets/fitness_app/dinner.png',
       titleTxt: 'FTG',
-      kacl: 0,
-      meals: <String>['Recommend:', '703 kcal'],
+      total: 6,
+      patients: 4,
+      // meals: <String>['Recommend:', '703 kcal'],
       startColor: '#6F72CA',
       endColor: '#1E1466',
     ),
