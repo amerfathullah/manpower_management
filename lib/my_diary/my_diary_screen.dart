@@ -79,17 +79,17 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
     //     animationController: widget.animationController!,
     //   ),
     // );
-    listViews.add(
-      TitleView(
-        titleTxt: 'OPU',
-        // subTxt: 'Customize',
-        animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-            parent: widget.animationController!,
-            curve: const Interval((1 / count) * 2, 1.0,
-                curve: Curves.fastOutSlowIn))),
-        animationController: widget.animationController!,
-      ),
-    );
+    // listViews.add(
+    //   TitleView(
+    //     titleTxt: 'OPU',
+    //     // subTxt: 'Customize',
+    //     animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //         parent: widget.animationController!,
+    //         curve: const Interval((1 / count) * 2, 1.0,
+    //             curve: Curves.fastOutSlowIn))),
+    //     animationController: widget.animationController!,
+    //   ),
+    // );
 
     listViews.add(
       MealsListView(
