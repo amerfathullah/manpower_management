@@ -23,6 +23,7 @@ class FitnessAppTheme {
 
   static const Color backgroundColor = Color(0xFFFFFFFF);
   static const Color primaryColor = Color(0xFF2633C5);
+  static const Color dividerColor = Colors.transparent;
 
   static const TextTheme textTheme = TextTheme(
     headline4: display1,

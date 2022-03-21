@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // import 'range_slider_view.dart';
 // import 'slider_view.dart';
 import '../fitness_app_theme.dart';
+import 'calendar_popup_view.dart';
 import 'popular_filter_list.dart';
 
 class FiltersScreen extends StatefulWidget {
@@ -21,6 +22,28 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   // RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now().add(const Duration(days: 5));
+
+  void showDemoDialog({BuildContext? context}) {
+    showDialog<dynamic>(
+      context: context!,
+      builder: (BuildContext context) => CalendarPopupView(
+        barrierDismissible: true,
+        minimumDate: DateTime.now(),
+        //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
+        initialEndDate: endDate,
+        initialStartDate: startDate,
+        onApplyClick: (DateTime startData, DateTime endData) {
+          setState(() {
+            startDate = startData;
+            endDate = endData;
+          });
+        },
+        onCancelClick: () {},
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,15 +129,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                         textInputAction: TextInputAction.next,
                       ),
                     ),
-                    // const Padding(
-                    //   padding: EdgeInsets.all(16.0),
-                    //   child: TextButton(
-                    //     onPressed: () {
-                    //       Navigator.pop(context);
-                    //     },
-                    //     child: Text('Chosen Date'),
-                    //   ),
-                    // ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextButton(
+                        onPressed: showDemoDialog,
+                        child: const Text('Chosen Date'),
+                      ),
+                    ),
                   ],
                 ),
               ),
