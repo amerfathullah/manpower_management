@@ -1,10 +1,10 @@
-import '../ui_view/body_measurement.dart';
-import '../ui_view/glass_view.dart';
-import '../ui_view/mediterranean_diet_view.dart';
-import '../ui_view/title_view.dart';
+// import '../ui_view/body_measurement.dart';
+// import '../ui_view/glass_view.dart';
+// import '../ui_view/mediterranean_diet_view.dart';
+// import '../ui_view/title_view.dart';
 import '../fitness_app_theme.dart';
 import '../my_diary/meals_list_view.dart';
-import '../my_diary/water_view.dart';
+// import '../my_diary/water_view.dart';
 import 'package:flutter/material.dart';
 
 class MyDiaryScreen extends StatefulWidget {
