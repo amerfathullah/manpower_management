@@ -60,6 +60,26 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(16.0),
+                      child: TextButton(
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          // setState(() {
+                          //   isDatePopupOpen = true;
+                          // });
+                          showDemoDialog(context: context);
+                        },
+                        child: Text(
+                          'Choose Date',
+                          style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.width > 360
+                                  ? 18
+                                  : 16,
+                              fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
                         // initialValue: _initValues['title'],
                         decoration: InputDecoration(
@@ -127,19 +147,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
                               fontWeight: FontWeight.normal),
                         ),
                         textInputAction: TextInputAction.next,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextButton(
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          // setState(() {
-                          //   isDatePopupOpen = true;
-                          // });
-                          showDemoDialog(context: context);
-                        },
-                        child: const Text('Chosen Date'),
                       ),
                     ),
                   ],
