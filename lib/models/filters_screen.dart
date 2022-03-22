@@ -132,7 +132,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextButton(
-                        onPressed: showDemoDialog,
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          // setState(() {
+                          //   isDatePopupOpen = true;
+                          // });
+                          showDemoDialog(context: context);
+                        },
                         child: const Text('Chosen Date'),
                       ),
                     ),
