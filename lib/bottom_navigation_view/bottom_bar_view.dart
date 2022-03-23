@@ -60,16 +60,16 @@ class _BottomBarViewState extends State<BottomBarView>
                         padding:
                             const EdgeInsets.only(left: 8, right: 8, top: 4),
                         child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: TabIcons(
-                                  tabIconData: widget.tabIconsList?[0],
-                                  removeAllSelect: () {
-                                    setRemoveAllSelection(
-                                        widget.tabIconsList?[0]);
-                                    widget.changeIndex!(0);
-                                  }),
-                            ),
+                          children: const <Widget>[
+                            // Expanded(
+                            //   child: TabIcons(
+                            //       tabIconData: widget.tabIconsList?[0],
+                            //       removeAllSelect: () {
+                            //         setRemoveAllSelection(
+                            //             widget.tabIconsList?[0]);
+                            //         widget.changeIndex!(0);
+                            //       }),
+                            // ),
                             // Expanded(
                             //   child: TabIcons(
                             //       tabIconData: widget.tabIconsList?[1],
@@ -96,15 +96,15 @@ class _BottomBarViewState extends State<BottomBarView>
                             //         widget.changeIndex!(2);
                             //       }),
                             // ),
-                            Expanded(
-                              child: TabIcons(
-                                  tabIconData: widget.tabIconsList?[1],
-                                  removeAllSelect: () {
-                                    setRemoveAllSelection(
-                                        widget.tabIconsList?[1]);
-                                    widget.changeIndex!(1);
-                                  }),
-                            ),
+                            // Expanded(
+                            //   child: TabIcons(
+                            //       tabIconData: widget.tabIconsList?[1],
+                            //       removeAllSelect: () {
+                            //         setRemoveAllSelection(
+                            //             widget.tabIconsList?[1]);
+                            //         widget.changeIndex!(1);
+                            //       }),
+                            // ),
                           ],
                         ),
                       ),
