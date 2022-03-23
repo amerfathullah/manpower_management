@@ -2,6 +2,8 @@
 // import '../ui_view/glass_view.dart';
 // import '../ui_view/mediterranean_diet_view.dart';
 // import '../ui_view/title_view.dart';
+import 'package:intl/intl.dart';
+
 import '../fitness_app_theme.dart';
 import '../my_diary/meals_list_view.dart';
 // import '../my_diary/water_view.dart';
@@ -22,6 +24,8 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
+  DateTime currentDate = DateTime.now();
+  DateFormat dateFormat = DateFormat("dd-MM");
 
   @override
   void initState() {
@@ -284,8 +288,8 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 right: 8,
                               ),
                               child: Row(
-                                children: const <Widget>[
-                                  Padding(
+                                children: <Widget>[
+                                  const Padding(
                                     padding: EdgeInsets.only(right: 8),
                                     child: Icon(
                                       Icons.calendar_today,
@@ -294,9 +298,9 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                     ),
                                   ),
                                   Text(
-                                    '15 May',
+                                    dateFormat.format(currentDate),
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,
                                       fontWeight: FontWeight.normal,
                                       fontSize: 18,
