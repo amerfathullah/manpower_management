@@ -1,11 +1,15 @@
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/foundation.dart';
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
 // import 'range_slider_view.dart';
 // import 'slider_view.dart';
 import '../fitness_app_theme.dart';
 import 'calendar_popup_view.dart';
 import 'popular_filter_list.dart';
+import '../models/meals_list_data.dart';
+import 'package:intl/intl.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({Key? key}) : super(key: key);
@@ -19,11 +23,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
       PopularFilterListData.popularFList;
   List<PopularFilterListData> accomodationListData =
       PopularFilterListData.accomodationList;
+  List<MealsListData> mealsListData = MealsListData.tabIconsList;
 
   // RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
   DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now().add(const Duration(days: 5));
+  DateTime endDate = DateTime.now().add(const Duration(days: 6));
+  String chosenStation = '';
+  DateFormat dateFormat = DateFormat("dd/MM/yyyy");
 
   void showDemoDialog({BuildContext? context}) {
     showDialog<dynamic>(
@@ -45,6 +52,32 @@ class _FiltersScreenState extends State<FiltersScreen> {
     );
   }
 
+  void showStationDialog({BuildContext? context}) {
+    showDialog<dynamic>(
+      context: context!,
+      builder: (BuildContext context) => SimpleDialog(
+        title: const Text('Select Station'),
+        children: <Widget>[
+          ...mealsListData.map((e) => SimpleDialogOption(
+                onPressed: () {
+                  chosenStation = e.titleTxt;
+                  Navigator.of(context).pop();
+                },
+                child: Text(e.titleTxt),
+              ))
+          // SimpleDialogOption(
+          //   onPressed: () {},
+          //   child: Text('${mealsListData.length}'),
+          // ),
+          // SimpleDialogOption(
+          //   onPressed: () {},
+          //   child: Text('${mealsListData.length}'),
+          // ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -60,22 +93,37 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: TextButton(
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          // setState(() {
-                          //   isDatePopupOpen = true;
-                          // });
-                          showDemoDialog(context: context);
-                        },
-                        child: Text(
-                          'Choose Date',
-                          style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width > 360
-                                  ? 18
-                                  : 16,
-                              fontWeight: FontWeight.normal),
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              // setState(() {
+                              //   isDatePopupOpen = true;
+                              // });
+                              showDemoDialog(context: context);
+                            },
+                            child: Text(
+                              'Choose Date',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width > 360
+                                          ? 18
+                                          : 16,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                          Text(
+                            '${dateFormat.format(startDate)} - ${dateFormat.format(endDate)}',
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width > 360
+                                        ? 18
+                                        : 16,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
                       ),
                     ),
                     Padding(
@@ -117,19 +165,37 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          focusColor: FitnessAppTheme.primaryColor,
-                          labelText: 'Station',
-                          border: const OutlineInputBorder(),
-                          labelStyle: TextStyle(
-                              color: Colors.grey,
-                              fontSize: MediaQuery.of(context).size.width > 360
-                                  ? 18
-                                  : 16,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        textInputAction: TextInputAction.next,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              // setState(() {
+                              //   isDatePopupOpen = true;
+                              // });
+                              showStationDialog(context: context);
+                            },
+                            child: Text(
+                              'Choose Station',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width > 360
+                                          ? 18
+                                          : 16,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                          Text(
+                            chosenStation,
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width > 360
+                                        ? 18
+                                        : 16,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
                       ),
                     ),
                     Padding(
