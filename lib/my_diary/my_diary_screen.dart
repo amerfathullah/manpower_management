@@ -25,7 +25,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
   DateTime currentDate = DateTime.now();
-  DateFormat dateFormat = DateFormat("dd-MM");
+  DateFormat dateFormat = DateFormat("dd-MMM");
 
   @override
   void initState() {

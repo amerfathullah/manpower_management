@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../fitness_app_theme.dart';
 import '../models/meals_list_data.dart';
 import '../main.dart';
@@ -105,8 +107,6 @@ class MealsView extends StatefulWidget {
 }
 
 class _MealsViewState extends State<MealsView> {
-  bool showCard = false;
-
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -128,9 +128,11 @@ class _MealsViewState extends State<MealsView> {
                             top: 32, left: 8, right: 8, bottom: 16),
                         child: InkWell(
                           onTap: () {
-                            setState(() {
-                              showCard = true;
-                            });
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            // setState(() {
+                            //   isDatePopupOpen = true;
+                            // });
+                            showCard(context: context);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -179,22 +181,6 @@ class _MealsViewState extends State<MealsView> {
                                     child: Padding(
                                       padding:
                                           EdgeInsets.only(top: 8, bottom: 8),
-                                      // child: Row(
-                                      //   mainAxisAlignment: MainAxisAlignment.start,
-                                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                                      //   children: <Widget>[
-                                      //     // Text(
-                                      //     //   mealsListData!.meals!.join('\n'),
-                                      //     //   style: const TextStyle(
-                                      //     //     fontFamily: FitnessAppTheme.fontName,
-                                      //     //     fontWeight: FontWeight.w500,
-                                      //     //     fontSize: 10,
-                                      //     //     letterSpacing: 0.2,
-                                      //     //     color: FitnessAppTheme.white,
-                                      //     //   ),
-                                      //     // ),
-                                      //   ],
-                                      // ),
                                     ),
                                   ),
                                   widget.mealsListData?.total != 0
@@ -204,32 +190,6 @@ class _MealsViewState extends State<MealsView> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.end,
                                           children: <Widget>[
-                                            // Text(
-                                            //   mealsListData!.total.toString(),
-                                            //   textAlign: TextAlign.center,
-                                            //   style: const TextStyle(
-                                            //     fontFamily: FitnessAppTheme.fontName,
-                                            //     fontWeight: FontWeight.w500,
-                                            //     fontSize: 24,
-                                            //     letterSpacing: 0.2,
-                                            //     color: FitnessAppTheme.white,
-                                            //   ),
-                                            // ),
-                                            // const Padding(
-                                            //   padding:
-                                            //       EdgeInsets.only(left: 4, bottom: 3),
-                                            //   child: Text(
-                                            //     'kcal',
-                                            //     style: TextStyle(
-                                            //       fontFamily:
-                                            //           FitnessAppTheme.fontName,
-                                            //       fontWeight: FontWeight.w500,
-                                            //       fontSize: 10,
-                                            //       letterSpacing: 0.2,
-                                            //       color: FitnessAppTheme.white,
-                                            //     ),
-                                            //   ),
-                                            // ),
                                             Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
@@ -327,12 +287,34 @@ class _MealsViewState extends State<MealsView> {
                     ],
                   ),
                 ),
-                showCard ? Text(widget.mealsListData!.titleTxt) : Container(),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  void showCard({BuildContext? context}) {
+    DateTime currentDate = DateTime.now();
+    DateFormat dateFormat = DateFormat("dd-MMM");
+    showDialog<dynamic>(
+      context: context!,
+      builder: (BuildContext context) => SimpleDialog(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(widget.mealsListData!.titleTxt),
+            Text(dateFormat.format(currentDate)),
+          ],
+        ),
+        children: <Widget>[
+          Center(child: Text('Total Manpower: ${widget.mealsListData!.total}')),
+          Center(
+              child:
+                  Text('No. of patients: ${widget.mealsListData!.patients}')),
+        ],
+      ),
     );
   }
 }
