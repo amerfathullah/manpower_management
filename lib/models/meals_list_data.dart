@@ -19,7 +19,7 @@ class MealsListData {
 
   static List<MealsListData> tabIconsList = <MealsListData>[
     MealsListData(
-      imagePath: 'assets/fitness_app/breakfast.png',
+      imagePath: 'assets/fitness_app/cefs.png',
       titleTxt: 'Main Station',
       total: 64,
       patients: 1,
@@ -28,7 +28,7 @@ class MealsListData {
       endColor: '#FFB295',
     ),
     MealsListData(
-      imagePath: 'assets/fitness_app/lunch.png',
+      imagePath: 'assets/fitness_app/cefs.png',
       titleTxt: 'Station A',
       total: 43,
       patients: 2,
@@ -37,7 +37,7 @@ class MealsListData {
       endColor: '#5C5EDD',
     ),
     MealsListData(
-      imagePath: 'assets/fitness_app/snack.png',
+      imagePath: 'assets/fitness_app/cefs.png',
       titleTxt: 'Station B',
       total: 37,
       patients: 3,
@@ -46,7 +46,7 @@ class MealsListData {
       endColor: '#FF5287',
     ),
     MealsListData(
-      imagePath: 'assets/fitness_app/dinner.png',
+      imagePath: 'assets/fitness_app/cefs.png',
       titleTxt: 'FTG',
       total: 6,
       patients: 4,
