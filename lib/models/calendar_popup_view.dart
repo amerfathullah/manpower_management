@@ -1,8 +1,8 @@
-import '../fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'custom_calendar.dart';
+import '../management_app_theme.dart';
+import './custom_calendar.dart';
 
 class CalendarPopupView extends StatefulWidget {
   const CalendarPopupView(
@@ -80,7 +80,7 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                     padding: const EdgeInsets.all(24.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: FitnessAppTheme.backgroundColor,
+                        color: ManagementAppTheme.backgroundColor,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(24.0)),
                         boxShadow: <BoxShadow>[
@@ -135,7 +135,7 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                                 Container(
                                   height: 74,
                                   width: 1,
-                                  color: FitnessAppTheme.dividerColor,
+                                  color: ManagementAppTheme.dividerColor,
                                 ),
                                 Expanded(
                                   child: Column(
@@ -190,7 +190,7 @@ class _CalendarPopupViewState extends State<CalendarPopupView>
                               child: Container(
                                 height: 48,
                                 decoration: BoxDecoration(
-                                  color: FitnessAppTheme.primaryColor,
+                                  color: ManagementAppTheme.primaryColor,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(24.0)),
                                   boxShadow: <BoxShadow>[

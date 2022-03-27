@@ -1,16 +1,15 @@
 import 'package:intl/intl.dart';
-
-import '../fitness_app_theme.dart';
-import '../main.dart';
 import 'package:flutter/material.dart';
 
+import '../management_app_theme.dart';
+import '../main.dart';
 import '../../main.dart';
 import '../models/patient.dart';
 import '../models/station.dart';
 import '../ui_view/wave_view.dart';
 
-class MealsListView extends StatefulWidget {
-  const MealsListView({
+class OperationUnitView extends StatefulWidget {
+  const OperationUnitView({
     Key? key,
     this.mainScreenAnimationController,
     this.mainScreenAnimation,
@@ -20,16 +19,14 @@ class MealsListView extends StatefulWidget {
   final Animation<double>? mainScreenAnimation;
 
   @override
-  _MealsListViewState createState() => _MealsListViewState();
+  _OperationUnitViewState createState() => _OperationUnitViewState();
 }
 
-class _MealsListViewState extends State<MealsListView>
+class _OperationUnitViewState extends State<OperationUnitView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
   List<Station> stationData = Station.station;
   List<Patient> patientData = Patient.patients;
-
-  // get displayedPatients => patientData.where((p) {return p.station.contains(stationData[index].id);});
 
   @override
   void initState() {
@@ -78,19 +75,12 @@ class _MealsListViewState extends State<MealsListView>
                                   curve: Curves.fastOutSlowIn)));
                   animationController?.forward();
 
-                  // var displayedPatients = patientData.where((p) {return p.station.contains(stationData[index].id);});
-                  return MealsView(
+                  return OperationView(
                     stationData: stationData[index],
                     animation: animation,
                     animationController: animationController!,
                   );
                 },
-                // gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                //   maxCrossAxisExtent: 200,
-                //   childAspectRatio: 1,
-                //   crossAxisSpacing: 20,
-                //   mainAxisSpacing: 20,
-                // ),
               ),
             ),
           ),
@@ -100,8 +90,8 @@ class _MealsListViewState extends State<MealsListView>
   }
 }
 
-class MealsView extends StatefulWidget {
-  const MealsView(
+class OperationView extends StatefulWidget {
+  const OperationView(
       {Key? key,
       this.stationData,
       this.animationController,
@@ -115,10 +105,10 @@ class MealsView extends StatefulWidget {
   final Patient? patientData;
 
   @override
-  State<MealsView> createState() => _MealsViewState();
+  State<OperationView> createState() => _OperationViewState();
 }
 
-class _MealsViewState extends State<MealsView> {
+class _OperationViewState extends State<OperationView> {
   @override
   Widget build(BuildContext context) {
     List<Patient> displayedPatient = Patient.patients.where((p) {
@@ -150,9 +140,6 @@ class _MealsViewState extends State<MealsView> {
                         child: InkWell(
                           onTap: () {
                             FocusScope.of(context).requestFocus(FocusNode());
-                            // setState(() {
-                            //   isDatePopupOpen = true;
-                            // });
                             showCard(context: context);
                           },
                           child: Container(
@@ -191,11 +178,11 @@ class _MealsViewState extends State<MealsView> {
                                     widget.stationData!.id,
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
-                                      fontFamily: FitnessAppTheme.fontName,
+                                      fontFamily: ManagementAppTheme.fontName,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                       letterSpacing: 0.2,
-                                      color: FitnessAppTheme.white,
+                                      color: ManagementAppTheme.white,
                                     ),
                                   ),
                                   const Expanded(
@@ -236,9 +223,11 @@ class _MealsViewState extends State<MealsView> {
                                                                   80.0)),
                                                   boxShadow: <BoxShadow>[
                                                     BoxShadow(
-                                                        color: FitnessAppTheme
-                                                            .grey
-                                                            .withOpacity(0.4),
+                                                        color:
+                                                            ManagementAppTheme
+                                                                .grey
+                                                                .withOpacity(
+                                                                    0.4),
                                                         offset:
                                                             const Offset(2, 2),
                                                         blurRadius: 4),
@@ -253,11 +242,12 @@ class _MealsViewState extends State<MealsView> {
                                         )
                                       : Container(
                                           decoration: BoxDecoration(
-                                            color: FitnessAppTheme.nearlyWhite,
+                                            color:
+                                                ManagementAppTheme.nearlyWhite,
                                             shape: BoxShape.circle,
                                             boxShadow: <BoxShadow>[
                                               BoxShadow(
-                                                  color: FitnessAppTheme
+                                                  color: ManagementAppTheme
                                                       .nearlyBlack
                                                       .withOpacity(0.4),
                                                   offset:
@@ -288,7 +278,8 @@ class _MealsViewState extends State<MealsView> {
                           width: 84,
                           height: 84,
                           decoration: BoxDecoration(
-                            color: FitnessAppTheme.nearlyWhite.withOpacity(0.2),
+                            color:
+                                ManagementAppTheme.nearlyWhite.withOpacity(0.2),
                             shape: BoxShape.circle,
                           ),
                         ),

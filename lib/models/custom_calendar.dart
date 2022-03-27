@@ -1,6 +1,7 @@
-import '../fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../management_app_theme.dart';
 
 class CustomCalendarView extends StatefulWidget {
   const CustomCalendarView(
@@ -59,9 +60,6 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
     for (int i = 0; i < (42 - previousMothDay); i++) {
       dateList.add(newDate.add(Duration(days: i + 1)));
     }
-    // if (dateList[dateList.length - 7].month != monthDate.month) {
-    //   dateList.removeRange(dateList.length - 7, dateList.length);
-    // }
   }
 
   @override
@@ -81,7 +79,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                     border: Border.all(
-                      color: FitnessAppTheme.dividerColor,
+                      color: ManagementAppTheme.dividerColor,
                     ),
                   ),
                   child: Material(
@@ -123,7 +121,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                     border: Border.all(
-                      color: FitnessAppTheme.dividerColor,
+                      color: ManagementAppTheme.dividerColor,
                     ),
                   ),
                   child: Material(
@@ -176,7 +174,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
               style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: FitnessAppTheme.primaryColor),
+                  color: ManagementAppTheme.primaryColor),
             ),
           ),
         ),
@@ -213,7 +211,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                             color: startDate != null && endDate != null
                                 ? getIsItStartAndEndDate(date) ||
                                         getIsInRange(date)
-                                    ? FitnessAppTheme.primaryColor
+                                    ? ManagementAppTheme.primaryColor
                                         .withOpacity(0.4)
                                     : Colors.transparent
                                 : Colors.transparent,
@@ -283,7 +281,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: getIsItStartAndEndDate(date)
-                                ? FitnessAppTheme.primaryColor
+                                ? ManagementAppTheme.primaryColor
                                 : Colors.transparent,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(32.0)),
@@ -337,7 +335,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
                                   DateTime.now().year == date.year
                               ? getIsInRange(date)
                                   ? Colors.white
-                                  : FitnessAppTheme.primaryColor
+                                  : ManagementAppTheme.primaryColor
                               : Colors.transparent,
                           shape: BoxShape.circle),
                     ),

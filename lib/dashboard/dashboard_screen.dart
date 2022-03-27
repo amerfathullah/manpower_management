@@ -1,13 +1,8 @@
-// import '../ui_view/body_measurement.dart';
-// import '../ui_view/glass_view.dart';
-// import '../ui_view/mediterranean_diet_view.dart';
-// import '../ui_view/title_view.dart';
 import 'package:intl/intl.dart';
-
-import '../fitness_app_theme.dart';
-import '../my_diary/meals_list_view.dart';
-// import '../my_diary/water_view.dart';
 import 'package:flutter/material.dart';
+
+import '../management_app_theme.dart';
+import './operation_unit_view.dart';
 
 class MyDiaryScreen extends StatefulWidget {
   const MyDiaryScreen({Key? key, this.animationController}) : super(key: key);
@@ -63,7 +58,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
   void addAllListData() {
     const int count = 9;
     listViews.add(
-      MealsListView(
+      OperationUnitView(
         mainScreenAnimation: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
                 parent: widget.animationController!,
@@ -82,7 +77,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: FitnessAppTheme.background,
+      color: ManagementAppTheme.background,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
@@ -138,13 +133,13 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                     0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: FitnessAppTheme.white.withOpacity(topBarOpacity),
+                    color: ManagementAppTheme.white.withOpacity(topBarOpacity),
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32.0),
                     ),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                          color: FitnessAppTheme.grey
+                          color: ManagementAppTheme.grey
                               .withOpacity(0.4 * topBarOpacity),
                           offset: const Offset(1.1, 1.1),
                           blurRadius: 10.0),
@@ -171,11 +166,11 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                   'Manpower Management',
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                    fontFamily: FitnessAppTheme.fontName,
+                                    fontFamily: ManagementAppTheme.fontName,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 16 + 6 - 6 * topBarOpacity,
                                     letterSpacing: 1.2,
-                                    color: FitnessAppTheme.darkerText,
+                                    color: ManagementAppTheme.darkerText,
                                   ),
                                 ),
                               ),
@@ -191,7 +186,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 child: const Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_left,
-                                    color: FitnessAppTheme.grey,
+                                    color: ManagementAppTheme.grey,
                                   ),
                                 ),
                               ),
@@ -207,7 +202,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                     padding: EdgeInsets.only(right: 8),
                                     child: Icon(
                                       Icons.calendar_today,
-                                      color: FitnessAppTheme.grey,
+                                      color: ManagementAppTheme.grey,
                                       size: 18,
                                     ),
                                   ),
@@ -215,11 +210,11 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                     dateFormat.format(currentDate),
                                     textAlign: TextAlign.left,
                                     style: const TextStyle(
-                                      fontFamily: FitnessAppTheme.fontName,
+                                      fontFamily: ManagementAppTheme.fontName,
                                       fontWeight: FontWeight.normal,
                                       fontSize: 18,
                                       letterSpacing: -0.2,
-                                      color: FitnessAppTheme.darkerText,
+                                      color: ManagementAppTheme.darkerText,
                                     ),
                                   ),
                                 ],
@@ -236,7 +231,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 child: const Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_right,
-                                    color: FitnessAppTheme.grey,
+                                    color: ManagementAppTheme.grey,
                                   ),
                                 ),
                               ),

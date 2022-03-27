@@ -1,25 +1,27 @@
-import './models/tabIcon_data.dart';
 import 'package:flutter/material.dart';
-import 'bottom_navigation_view/bottom_bar_view.dart';
-import 'fitness_app_theme.dart';
-import 'models/filters_screen.dart';
-import 'my_diary/my_diary_screen.dart';
 
-class FitnessAppHomeScreen extends StatefulWidget {
-  const FitnessAppHomeScreen({Key? key}) : super(key: key);
+import './models/tabicon_data.dart';
+import './bottom_navigation_view/bottom_bar_view.dart';
+import './management_app_theme.dart';
+import './models/filters_screen.dart';
+import './dashboard/dashboard_screen.dart';
+
+class ManagementAppHomeScreen extends StatefulWidget {
+  const ManagementAppHomeScreen({Key? key}) : super(key: key);
 
   @override
-  _FitnessAppHomeScreenState createState() => _FitnessAppHomeScreenState();
+  _ManagementAppHomeScreenState createState() =>
+      _ManagementAppHomeScreenState();
 }
 
-class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
+class _ManagementAppHomeScreenState extends State<ManagementAppHomeScreen>
     with TickerProviderStateMixin {
   AnimationController? animationController;
 
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
   Widget tabBody = Container(
-    color: FitnessAppTheme.background,
+    color: ManagementAppTheme.background,
   );
 
   @override
@@ -44,7 +46,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: FitnessAppTheme.background,
+      color: ManagementAppTheme.background,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(

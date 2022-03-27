@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './fitness_app_home_screen.dart';
+
+import './management_app_home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const FitnessAppHomeScreen(),
+      home: const ManagementAppHomeScreen(),
     );
   }
 }

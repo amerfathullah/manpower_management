@@ -24,7 +24,7 @@ class Patient {
 
   static List<Patient> patients = [
     Patient(
-      id: '1',
+      id: '0',
       name: 'Amer Fathullah',
       shift: Shift.A,
       startDate: DateTime.now(),
@@ -32,7 +32,7 @@ class Patient {
       station: 'Main Station',
     ),
     Patient(
-      id: '2',
+      id: '1',
       name: 'Fazli Jamaluddin',
       shift: Shift.B,
       startDate: DateTime.now(),
@@ -40,7 +40,7 @@ class Patient {
       station: 'Station A',
     ),
     Patient(
-      id: '3',
+      id: '2',
       name: 'Abdullah Hadi',
       shift: Shift.C,
       startDate: DateTime.now(),

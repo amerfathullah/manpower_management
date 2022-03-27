@@ -1,9 +1,10 @@
 import 'dart:math' as math;
-import '../fitness_app_theme.dart';
-import '../models/tabIcon_data.dart';
-import '../main.dart';
+
 import 'package:flutter/material.dart';
 
+import '../management_app_theme.dart';
+import '../models/tabicon_data.dart';
+import '../main.dart';
 import '../../main.dart';
 
 class BottomBarView extends StatefulWidget {
@@ -43,7 +44,7 @@ class _BottomBarViewState extends State<BottomBarView>
             return Transform(
               transform: Matrix4.translationValues(0.0, 0.0, 0.0),
               child: PhysicalShape(
-                color: FitnessAppTheme.white,
+                color: ManagementAppTheme.white,
                 elevation: 16.0,
                 clipper: TabClipper(
                     radius: Tween<double>(begin: 0.0, end: 1.0)
@@ -60,52 +61,7 @@ class _BottomBarViewState extends State<BottomBarView>
                         padding:
                             const EdgeInsets.only(left: 8, right: 8, top: 4),
                         child: Row(
-                          children: const <Widget>[
-                            // Expanded(
-                            //   child: TabIcons(
-                            //       tabIconData: widget.tabIconsList?[0],
-                            //       removeAllSelect: () {
-                            //         setRemoveAllSelection(
-                            //             widget.tabIconsList?[0]);
-                            //         widget.changeIndex!(0);
-                            //       }),
-                            // ),
-                            // Expanded(
-                            //   child: TabIcons(
-                            //       tabIconData: widget.tabIconsList?[1],
-                            //       removeAllSelect: () {
-                            //         setRemoveAllSelection(
-                            //             widget.tabIconsList?[1]);
-                            //         widget.changeIndex!(1);
-                            //       }),
-                            // ),
-                            // SizedBox(
-                            //   width: Tween<double>(begin: 0.0, end: 1.0)
-                            //           .animate(CurvedAnimation(
-                            //               parent: animationController!,
-                            //               curve: Curves.fastOutSlowIn))
-                            //           .value *
-                            //       64.0,
-                            // ),
-                            // Expanded(
-                            //   child: TabIcons(
-                            //       tabIconData: widget.tabIconsList?[2],
-                            //       removeAllSelect: () {
-                            //         setRemoveAllSelection(
-                            //             widget.tabIconsList?[2]);
-                            //         widget.changeIndex!(2);
-                            //       }),
-                            // ),
-                            // Expanded(
-                            //   child: TabIcons(
-                            //       tabIconData: widget.tabIconsList?[1],
-                            //       removeAllSelect: () {
-                            //         setRemoveAllSelection(
-                            //             widget.tabIconsList?[1]);
-                            //         widget.changeIndex!(1);
-                            //       }),
-                            // ),
-                          ],
+                          children: const <Widget>[],
                         ),
                       ),
                     ),
@@ -141,10 +97,10 @@ class _BottomBarViewState extends State<BottomBarView>
                     child: Container(
                       // alignment: Alignment.center,s
                       decoration: BoxDecoration(
-                        color: FitnessAppTheme.nearlyDarkBlue,
+                        color: ManagementAppTheme.nearlyDarkBlue,
                         gradient: LinearGradient(
                             colors: [
-                              FitnessAppTheme.nearlyDarkBlue,
+                              ManagementAppTheme.nearlyDarkBlue,
                               HexColor('#6A88E5'),
                             ],
                             begin: Alignment.topLeft,
@@ -152,7 +108,7 @@ class _BottomBarViewState extends State<BottomBarView>
                         shape: BoxShape.circle,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: FitnessAppTheme.nearlyDarkBlue
+                              color: ManagementAppTheme.nearlyDarkBlue
                                   .withOpacity(0.4),
                               offset: const Offset(8.0, 16.0),
                               blurRadius: 16.0),
@@ -167,7 +123,7 @@ class _BottomBarViewState extends State<BottomBarView>
                           onTap: widget.addClick,
                           child: const Icon(
                             Icons.add,
-                            color: FitnessAppTheme.white,
+                            color: ManagementAppTheme.white,
                             size: 32,
                           ),
                         ),
@@ -271,7 +227,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 8,
                       height: 8,
                       decoration: const BoxDecoration(
-                        color: FitnessAppTheme.nearlyDarkBlue,
+                        color: ManagementAppTheme.nearlyDarkBlue,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -292,7 +248,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 4,
                       height: 4,
                       decoration: const BoxDecoration(
-                        color: FitnessAppTheme.nearlyDarkBlue,
+                        color: ManagementAppTheme.nearlyDarkBlue,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -313,7 +269,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 6,
                       height: 6,
                       decoration: const BoxDecoration(
-                        color: FitnessAppTheme.nearlyDarkBlue,
+                        color: ManagementAppTheme.nearlyDarkBlue,
                         shape: BoxShape.circle,
                       ),
                     ),

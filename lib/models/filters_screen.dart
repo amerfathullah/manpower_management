@@ -1,18 +1,11 @@
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/foundation.dart';
-// import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:manpower_management/fitness_app_home_screen.dart';
-// import 'range_slider_view.dart';
-// import 'slider_view.dart';
-import '../fitness_app_theme.dart';
-import 'calendar_popup_view.dart';
-import 'patient.dart';
-import 'popular_filter_list.dart';
 import 'package:intl/intl.dart';
 
-import 'station.dart';
+import '../management_app_home_screen.dart';
+import '../management_app_theme.dart';
+import './calendar_popup_view.dart';
+import './patient.dart';
+import './station.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({Key? key}) : super(key: key);
@@ -23,13 +16,8 @@ class FiltersScreen extends StatefulWidget {
 
 class _FiltersScreenState extends State<FiltersScreen> {
   final _form = GlobalKey<FormState>();
-  List<PopularFilterListData> popularFilterListData =
-      PopularFilterListData.popularFList;
-  List<PopularFilterListData> accomodationListData =
-      PopularFilterListData.accomodationList;
   List<Station> stationData = Station.station;
 
-  // RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
   DateFormat dateFormat = DateFormat("dd/MM/yyyy");
 
@@ -42,17 +30,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
     station: '',
   );
 
-  final _initValues = {
-    'name': '',
-  };
-
   void showDemoDialog({BuildContext? context}) {
     showDialog<dynamic>(
       context: context!,
       builder: (BuildContext context) => CalendarPopupView(
         barrierDismissible: true,
         minimumDate: DateTime.now(),
-        //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
         initialEndDate: _editedPatient.endDate,
         initialStartDate: _editedPatient.startDate,
         onApplyClick: (DateTime startData, DateTime endData) {
@@ -152,15 +135,23 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   Future<void> _saveForm() async {
+    final isValid = _form.currentState?.validate();
+    if (!isValid!) {
+      return;
+    }
+    _form.currentState?.save();
+    setState(() {});
+    // ignore: avoid_print
+    print('saveform id: ' + _editedPatient.id);
     try {
       _form.currentState?.save();
       setState(() {});
-      submitPatient(_editedPatient);
+      await submitPatient(_editedPatient);
       setState(() {});
       Navigator.pushReplacement<void, void>(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => const FitnessAppHomeScreen(),
+          builder: (BuildContext context) => const ManagementAppHomeScreen(),
         ),
       );
     } catch (error) {
@@ -186,7 +177,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: FitnessAppTheme.backgroundColor,
+      color: ManagementAppTheme.backgroundColor,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Column(
@@ -232,9 +223,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
-                        initialValue: _initValues['name'],
                         decoration: InputDecoration(
-                          focusColor: FitnessAppTheme.primaryColor,
+                          focusColor: ManagementAppTheme.primaryColor,
                           labelText: 'Name',
                           border: const OutlineInputBorder(),
                           labelStyle: TextStyle(
@@ -245,10 +235,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
                               fontWeight: FontWeight.normal),
                         ),
                         textInputAction: TextInputAction.next,
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter some text';
+                          }
+                          return null;
+                        },
                         onSaved: (value) {
                           _editedPatient = Patient(
-                              id: _editedPatient.name,
-                              name: _editedPatient.name,
+                              id: '${Patient.patients.length}',
+                              name: value!,
                               shift: _editedPatient.shift,
                               startDate: _editedPatient.startDate,
                               endDate: _editedPatient.endDate,
@@ -333,7 +329,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               child: Container(
                 height: 48,
                 decoration: BoxDecoration(
-                  color: FitnessAppTheme.primaryColor,
+                  color: ManagementAppTheme.primaryColor,
                   borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
@@ -349,13 +345,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                     highlightColor: Colors.transparent,
                     onTap: () {
-                      _saveForm();
-                      print(_editedPatient.id);
-                      print(_editedPatient.name);
-                      print(_editedPatient.shift);
-                      print(_editedPatient.station);
-                      print(_editedPatient.startDate);
-                      print(_editedPatient.endDate);
+                      if (_form.currentState!.validate()) {
+                        _saveForm();
+                      }
                     },
                     child: const Center(
                       child: Text(
@@ -379,7 +371,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: FitnessAppTheme.backgroundColor,
+        color: ManagementAppTheme.backgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),
