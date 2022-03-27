@@ -121,6 +121,12 @@ class MealsView extends StatefulWidget {
 class _MealsViewState extends State<MealsView> {
   @override
   Widget build(BuildContext context) {
+    List<Patient> displayedPatient = Patient.patients.where((p) {
+      return p.station.contains(widget.stationData!.id);
+    }).toList();
+    double percent = ((widget.stationData!.total - displayedPatient.length) /
+            widget.stationData!.total) *
+        100;
     return AnimatedBuilder(
       animation: widget.animationController!,
       builder: (BuildContext context, Widget? child) {
@@ -236,10 +242,7 @@ class _MealsViewState extends State<MealsView> {
                                                   ],
                                                 ),
                                                 child: WaveView(
-                                                  percentageValue: widget
-                                                          .stationData?.total
-                                                          .toDouble() ??
-                                                      0,
+                                                  percentageValue: percent,
                                                 ),
                                               ),
                                             )
