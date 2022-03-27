@@ -1,17 +1,20 @@
 import 'package:intl/intl.dart';
 
 import '../fitness_app_theme.dart';
-import '../models/meals_list_data.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
+import '../models/patient.dart';
+import '../models/station.dart';
 import '../ui_view/wave_view.dart';
 
 class MealsListView extends StatefulWidget {
-  const MealsListView(
-      {Key? key, this.mainScreenAnimationController, this.mainScreenAnimation})
-      : super(key: key);
+  const MealsListView({
+    Key? key,
+    this.mainScreenAnimationController,
+    this.mainScreenAnimation,
+  }) : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
@@ -23,7 +26,10 @@ class MealsListView extends StatefulWidget {
 class _MealsListViewState extends State<MealsListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
-  List<MealsListData> mealsListData = MealsListData.tabIconsList;
+  List<Station> stationData = Station.station;
+  List<Patient> patientData = Patient.patients;
+
+  // get displayedPatients => patientData.where((p) {return p.station.contains(stationData[index].id);});
 
   @override
   void initState() {
@@ -59,11 +65,11 @@ class _MealsListViewState extends State<MealsListView>
               child: ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: mealsListData.length,
+                itemCount: stationData.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
                   final int count =
-                      mealsListData.length > 10 ? 10 : mealsListData.length;
+                      stationData.length > 10 ? 10 : stationData.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -72,8 +78,9 @@ class _MealsListViewState extends State<MealsListView>
                                   curve: Curves.fastOutSlowIn)));
                   animationController?.forward();
 
+                  // var displayedPatients = patientData.where((p) {return p.station.contains(stationData[index].id);});
                   return MealsView(
-                    mealsListData: mealsListData[index],
+                    stationData: stationData[index],
                     animation: animation,
                     animationController: animationController!,
                   );
@@ -95,12 +102,17 @@ class _MealsListViewState extends State<MealsListView>
 
 class MealsView extends StatefulWidget {
   const MealsView(
-      {Key? key, this.mealsListData, this.animationController, this.animation})
+      {Key? key,
+      this.stationData,
+      this.animationController,
+      this.animation,
+      this.patientData})
       : super(key: key);
 
-  final MealsListData? mealsListData;
   final AnimationController? animationController;
   final Animation<double>? animation;
+  final Station? stationData;
+  final Patient? patientData;
 
   @override
   State<MealsView> createState() => _MealsViewState();
@@ -139,15 +151,15 @@ class _MealsViewState extends State<MealsView> {
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
                                     color:
-                                        HexColor(widget.mealsListData!.endColor)
+                                        HexColor(widget.stationData!.endColor)
                                             .withOpacity(0.6),
                                     offset: const Offset(1.1, 4.0),
                                     blurRadius: 8.0),
                               ],
                               gradient: LinearGradient(
                                 colors: <HexColor>[
-                                  HexColor(widget.mealsListData!.startColor),
-                                  HexColor(widget.mealsListData!.endColor),
+                                  HexColor(widget.stationData!.startColor),
+                                  HexColor(widget.stationData!.endColor),
                                 ],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
@@ -167,7 +179,7 @@ class _MealsViewState extends State<MealsView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    widget.mealsListData!.titleTxt,
+                                    widget.stationData!.id,
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       fontFamily: FitnessAppTheme.fontName,
@@ -183,7 +195,7 @@ class _MealsViewState extends State<MealsView> {
                                           EdgeInsets.only(top: 8, bottom: 8),
                                     ),
                                   ),
-                                  widget.mealsListData?.total != 0
+                                  widget.stationData?.total != 0
                                       ? Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -225,7 +237,7 @@ class _MealsViewState extends State<MealsView> {
                                                 ),
                                                 child: WaveView(
                                                   percentageValue: widget
-                                                          .mealsListData?.total
+                                                          .stationData?.total
                                                           .toDouble() ??
                                                       0,
                                                 ),
@@ -251,8 +263,8 @@ class _MealsViewState extends State<MealsView> {
                                             padding: const EdgeInsets.all(6.0),
                                             child: Icon(
                                               Icons.add,
-                                              color: HexColor(widget
-                                                  .mealsListData!.endColor),
+                                              color: HexColor(
+                                                  widget.stationData!.endColor),
                                               size: 24,
                                             ),
                                           ),
@@ -281,7 +293,7 @@ class _MealsViewState extends State<MealsView> {
                         child: SizedBox(
                           width: 80,
                           height: 80,
-                          child: Image.asset(widget.mealsListData!.imagePath),
+                          child: Image.asset(widget.stationData!.imagePath),
                         ),
                       )
                     ],
@@ -296,6 +308,9 @@ class _MealsViewState extends State<MealsView> {
   }
 
   void showCard({BuildContext? context}) {
+    List<Patient> displayedPatient = Patient.patients.where((p) {
+      return p.station.contains(widget.stationData!.id);
+    }).toList();
     DateTime currentDate = DateTime.now();
     DateFormat dateFormat = DateFormat("dd-MMM");
     showDialog<dynamic>(
@@ -304,15 +319,18 @@ class _MealsViewState extends State<MealsView> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(widget.mealsListData!.titleTxt),
+            Text(widget.stationData!.id),
             Text(dateFormat.format(currentDate)),
           ],
         ),
         children: <Widget>[
-          Center(child: Text('Total Manpower: ${widget.mealsListData!.total}')),
-          Center(
-              child:
-                  Text('No. of patients: ${widget.mealsListData!.patients}')),
+          Center(child: Text('Total Manpower: ${widget.stationData!.total}')),
+          Center(child: Text('No. of patients: ${displayedPatient.length}')),
+          ...displayedPatient.map(
+            (e) => Center(
+              child: Text(e.name),
+            ),
+          ),
         ],
       ),
     );
