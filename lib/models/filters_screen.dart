@@ -3,13 +3,16 @@
 // import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:manpower_management/fitness_app_home_screen.dart';
 // import 'range_slider_view.dart';
 // import 'slider_view.dart';
 import '../fitness_app_theme.dart';
 import 'calendar_popup_view.dart';
+import 'patient.dart';
 import 'popular_filter_list.dart';
-import '../models/meals_list_data.dart';
 import 'package:intl/intl.dart';
+
+import 'station.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({Key? key}) : super(key: key);
@@ -19,18 +22,29 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
+  final _form = GlobalKey<FormState>();
   List<PopularFilterListData> popularFilterListData =
       PopularFilterListData.popularFList;
   List<PopularFilterListData> accomodationListData =
       PopularFilterListData.accomodationList;
-  List<MealsListData> mealsListData = MealsListData.tabIconsList;
+  List<Station> stationData = Station.station;
 
   // RangeValues _values = const RangeValues(100, 600);
   double distValue = 50.0;
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now().add(const Duration(days: 6));
-  String chosenStation = '';
   DateFormat dateFormat = DateFormat("dd/MM/yyyy");
+
+  var _editedPatient = Patient(
+    id: '',
+    name: '',
+    shift: Shift.A,
+    startDate: DateTime.now(),
+    endDate: DateTime.now().add(const Duration(days: 6)),
+    station: '',
+  );
+
+  final _initValues = {
+    'name': '',
+  };
 
   void showDemoDialog({BuildContext? context}) {
     showDialog<dynamic>(
@@ -39,12 +53,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
         barrierDismissible: true,
         minimumDate: DateTime.now(),
         //  maximumDate: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day + 10),
-        initialEndDate: endDate,
-        initialStartDate: startDate,
+        initialEndDate: _editedPatient.endDate,
+        initialStartDate: _editedPatient.startDate,
         onApplyClick: (DateTime startData, DateTime endData) {
           setState(() {
-            startDate = startData;
-            endDate = endData;
+            _editedPatient.startDate = startData;
+            _editedPatient.endDate = endData;
           });
         },
         onCancelClick: () {},
@@ -58,24 +72,115 @@ class _FiltersScreenState extends State<FiltersScreen> {
       builder: (BuildContext context) => SimpleDialog(
         title: const Text('Select Station'),
         children: <Widget>[
-          ...mealsListData.map((e) => SimpleDialogOption(
+          ...stationData.map((e) => SimpleDialogOption(
                 onPressed: () {
-                  chosenStation = e.titleTxt;
+                  _editedPatient.station = e.id;
                   Navigator.of(context).pop();
                 },
-                child: Text(e.titleTxt),
+                child: Text(e.id),
               ))
-          // SimpleDialogOption(
-          //   onPressed: () {},
-          //   child: Text('${mealsListData.length}'),
-          // ),
-          // SimpleDialogOption(
-          //   onPressed: () {},
-          //   child: Text('${mealsListData.length}'),
-          // ),
         ],
       ),
     );
+  }
+
+  void showShiftDialog({BuildContext? context}) {
+    showDialog<dynamic>(
+      context: context!,
+      builder: (BuildContext context) => SimpleDialog(
+        title: const Text('Select Shift'),
+        children: <Widget>[
+          Row(
+            children: [
+              Radio<Shift>(
+                value: Shift.A,
+                groupValue: _editedPatient.shift,
+                onChanged: (Shift? value) {
+                  setState(() {
+                    _editedPatient.shift = value!;
+                  });
+                },
+              ),
+              const Text('A'),
+            ],
+          ),
+          Row(
+            children: [
+              Radio<Shift>(
+                value: Shift.B,
+                groupValue: _editedPatient.shift,
+                onChanged: (Shift? value) {
+                  setState(() {
+                    _editedPatient.shift = value!;
+                  });
+                },
+              ),
+              const Text('B'),
+            ],
+          ),
+          Row(
+            children: [
+              Radio<Shift>(
+                value: Shift.C,
+                groupValue: _editedPatient.shift,
+                onChanged: (Shift? value) {
+                  setState(() {
+                    _editedPatient.shift = value!;
+                  });
+                },
+              ),
+              const Text('C'),
+            ],
+          ),
+          Row(
+            children: [
+              Radio<Shift>(
+                value: Shift.D,
+                groupValue: _editedPatient.shift,
+                onChanged: (Shift? value) {
+                  setState(() {
+                    _editedPatient.shift = value!;
+                  });
+                },
+              ),
+              const Text('D'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _saveForm() async {
+    try {
+      _form.currentState?.save();
+      setState(() {});
+      submitPatient(_editedPatient);
+      setState(() {});
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => const FitnessAppHomeScreen(),
+        ),
+      );
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> submitPatient(Patient patient) async {
+    try {
+      final newPatient = Patient(
+          id: patient.id,
+          name: patient.name,
+          shift: patient.shift,
+          startDate: patient.startDate,
+          endDate: patient.endDate,
+          station: patient.station);
+      Patient.patients.add(newPatient);
+    } catch (error) {
+      rethrow;
+    }
   }
 
   @override
@@ -87,7 +192,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
         body: Column(
           children: <Widget>[
             getAppBarUI(),
-            Expanded(
+            Form(
+              key: _form,
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
@@ -99,9 +205,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
                           TextButton(
                             onPressed: () {
                               FocusScope.of(context).requestFocus(FocusNode());
-                              // setState(() {
-                              //   isDatePopupOpen = true;
-                              // });
                               showDemoDialog(context: context);
                             },
                             child: Text(
@@ -115,7 +218,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                             ),
                           ),
                           Text(
-                            '${dateFormat.format(startDate)} - ${dateFormat.format(endDate)}',
+                            '${dateFormat.format(_editedPatient.startDate)} - ${dateFormat.format(_editedPatient.endDate)}',
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width > 360
@@ -129,7 +232,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
-                        // initialValue: _initValues['title'],
+                        initialValue: _initValues['name'],
                         decoration: InputDecoration(
                           focusColor: FitnessAppTheme.primaryColor,
                           labelText: 'Name',
@@ -142,25 +245,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
                               fontWeight: FontWeight.normal),
                         ),
                         textInputAction: TextInputAction.next,
-                        // onFieldSubmitted: (_) {
-                        //   FocusScope.of(context).requestFocus(_priceFocusNode);
-                        // },
-                        // validator: (value) {
-                        //   if (value.isEmpty) {
-                        //     return 'Please provide a value.';
-                        //   }
-                        //   return null;
-                        // },
-                        // onSaved: (value) {
-                        //   _editedProduct = Product(
-                        //     title: value,
-                        //     price: _editedProduct.price,
-                        //     description: _editedProduct.description,
-                        //     imageUrl: _editedProduct.imageUrl,
-                        //     id: _editedProduct.id,
-                        //     isFavorite: _editedProduct.isFavorite,
-                        //   );
-                        // },
+                        onSaved: (value) {
+                          _editedPatient = Patient(
+                              id: _editedPatient.name,
+                              name: _editedPatient.name,
+                              shift: _editedPatient.shift,
+                              startDate: _editedPatient.startDate,
+                              endDate: _editedPatient.endDate,
+                              station: _editedPatient.station);
+                        },
                       ),
                     ),
                     Padding(
@@ -171,9 +264,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
                           TextButton(
                             onPressed: () {
                               FocusScope.of(context).requestFocus(FocusNode());
-                              // setState(() {
-                              //   isDatePopupOpen = true;
-                              // });
                               showStationDialog(context: context);
                             },
                             child: Text(
@@ -187,7 +277,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                             ),
                           ),
                           Text(
-                            chosenStation,
+                            _editedPatient.station,
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width > 360
@@ -200,19 +290,34 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          focusColor: FitnessAppTheme.primaryColor,
-                          labelText: 'Shift',
-                          border: const OutlineInputBorder(),
-                          labelStyle: TextStyle(
-                              color: Colors.grey,
-                              fontSize: MediaQuery.of(context).size.width > 360
-                                  ? 18
-                                  : 16,
-                              fontWeight: FontWeight.normal),
-                        ),
-                        textInputAction: TextInputAction.next,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              showShiftDialog(context: context);
+                            },
+                            child: Text(
+                              'Choose Shift',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width > 360
+                                          ? 18
+                                          : 16,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                          Text(
+                            '${_editedPatient.shift}',
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width > 360
+                                        ? 18
+                                        : 16,
+                                fontWeight: FontWeight.normal),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -244,7 +349,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                     highlightColor: Colors.transparent,
                     onTap: () {
-                      Navigator.pop(context);
+                      _saveForm();
+                      print(_editedPatient.id);
+                      print(_editedPatient.name);
+                      print(_editedPatient.shift);
+                      print(_editedPatient.station);
+                      print(_editedPatient.startDate);
+                      print(_editedPatient.endDate);
                     },
                     child: const Center(
                       child: Text(

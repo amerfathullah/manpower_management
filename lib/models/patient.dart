@@ -6,12 +6,12 @@ enum Shift {
 }
 
 class Patient {
-  final String id;
-  final String name;
-  final Shift shift;
-  final DateTime startDate;
-  final DateTime endDate;
-  final String station;
+  String id;
+  String name;
+  Shift shift;
+  DateTime startDate;
+  DateTime endDate;
+  String station;
 
   Patient({
     required this.id,
@@ -48,4 +48,8 @@ class Patient {
       station: 'Main Station',
     ),
   ];
+
+  List<Patient> get patient {
+    return [...patients];
+  }
 }

@@ -124,9 +124,12 @@ class _MealsViewState extends State<MealsView> {
     List<Patient> displayedPatient = Patient.patients.where((p) {
       return p.station.contains(widget.stationData!.id);
     }).toList();
-    double percent = ((widget.stationData!.total - displayedPatient.length) /
-            widget.stationData!.total) *
-        100;
+    double percent = 100;
+    setState(() {
+      percent = ((widget.stationData!.total - displayedPatient.length) /
+              widget.stationData!.total) *
+          100;
+    });
     return AnimatedBuilder(
       animation: widget.animationController!,
       builder: (BuildContext context, Widget? child) {
