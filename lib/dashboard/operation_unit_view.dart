@@ -13,10 +13,12 @@ class OperationUnitView extends StatefulWidget {
     Key? key,
     this.mainScreenAnimationController,
     this.mainScreenAnimation,
+    required this.currentDate,
   }) : super(key: key);
 
   final AnimationController? mainScreenAnimationController;
   final Animation<double>? mainScreenAnimation;
+  final DateTime currentDate;
 
   @override
   _OperationUnitViewState createState() => _OperationUnitViewState();
@@ -79,6 +81,7 @@ class _OperationUnitViewState extends State<OperationUnitView>
                     stationData: stationData[index],
                     animation: animation,
                     animationController: animationController!,
+                    currentDate: widget.currentDate,
                   );
                 },
               ),
@@ -96,13 +99,13 @@ class OperationView extends StatefulWidget {
       this.stationData,
       this.animationController,
       this.animation,
-      this.patientData})
+      required this.currentDate})
       : super(key: key);
 
   final AnimationController? animationController;
   final Animation<double>? animation;
   final Station? stationData;
-  final Patient? patientData;
+  final DateTime currentDate;
 
   @override
   State<OperationView> createState() => _OperationViewState();
@@ -111,8 +114,16 @@ class OperationView extends StatefulWidget {
 class _OperationViewState extends State<OperationView> {
   @override
   Widget build(BuildContext context) {
+    DateFormat dateFormat = DateFormat("dd-MMM");
     List<Patient> displayedPatient = Patient.patients.where((p) {
-      return p.station.contains(widget.stationData!.id);
+      String now = dateFormat.format(widget.currentDate);
+      String start = dateFormat.format(p.startDate);
+      String end = dateFormat.format(p.endDate);
+      if (now.compareTo(start) >= 0 || now.compareTo(end) <= 0) {
+        return p.station.contains(widget.stationData!.id);
+      } else {
+        return p.station.contains('none');
+      }
     }).toList();
     double percent = 100;
     setState(() {
@@ -140,7 +151,9 @@ class _OperationViewState extends State<OperationView> {
                         child: InkWell(
                           onTap: () {
                             FocusScope.of(context).requestFocus(FocusNode());
-                            showCard(context: context);
+                            showCard(
+                                context: context,
+                                currentDate: widget.currentDate);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -304,12 +317,18 @@ class _OperationViewState extends State<OperationView> {
     );
   }
 
-  void showCard({BuildContext? context}) {
-    List<Patient> displayedPatient = Patient.patients.where((p) {
-      return p.station.contains(widget.stationData!.id);
-    }).toList();
-    DateTime currentDate = DateTime.now();
+  void showCard({BuildContext? context, required DateTime currentDate}) {
     DateFormat dateFormat = DateFormat("dd-MMM");
+    List<Patient> displayedPatient = Patient.patients.where((p) {
+      String now = dateFormat.format(currentDate);
+      String start = dateFormat.format(p.startDate);
+      String end = dateFormat.format(p.endDate);
+      if (now.compareTo(start) >= 0 || now.compareTo(end) <= 0) {
+        return p.station.contains(widget.stationData!.id);
+      } else {
+        return p.station.contains('none');
+      }
+    }).toList();
     showDialog<dynamic>(
       context: context!,
       builder: (BuildContext context) => SimpleDialog(
