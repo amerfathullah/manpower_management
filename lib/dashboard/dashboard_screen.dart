@@ -183,7 +183,13 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 highlightColor: Colors.transparent,
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(32.0)),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    DateTime previousDate = currentDate
+                                        .subtract(const Duration(days: 1));
+                                    currentDate = previousDate;
+                                  });
+                                },
                                 child: const Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_left,
@@ -228,7 +234,13 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 highlightColor: Colors.transparent,
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(32.0)),
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    DateTime nextDate = currentDate
+                                        .add(const Duration(days: 1));
+                                    currentDate = nextDate;
+                                  });
+                                },
                                 child: const Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_right,
