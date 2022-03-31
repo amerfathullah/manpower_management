@@ -119,7 +119,10 @@ class _OperationViewState extends State<OperationView> {
       String now = dateFormat.format(widget.currentDate);
       String start = dateFormat.format(p.startDate);
       String end = dateFormat.format(p.endDate);
-      if (now.compareTo(start) >= 0 || now.compareTo(end) <= 0) {
+      if (widget.currentDate.isAfter(p.startDate) &&
+              widget.currentDate.isBefore(p.endDate) ||
+          now.compareTo(start) == 0 ||
+          now.compareTo(end) == 0) {
         return p.station.contains(widget.stationData!.id);
       } else {
         return p.station.contains('none');
@@ -323,7 +326,10 @@ class _OperationViewState extends State<OperationView> {
       String now = dateFormat.format(currentDate);
       String start = dateFormat.format(p.startDate);
       String end = dateFormat.format(p.endDate);
-      if (now.compareTo(start) >= 0 || now.compareTo(end) <= 0) {
+      if (widget.currentDate.isAfter(p.startDate) &&
+              widget.currentDate.isBefore(p.endDate) ||
+          now.compareTo(start) == 0 ||
+          now.compareTo(end) == 0) {
         return p.station.contains(widget.stationData!.id);
       } else {
         return p.station.contains('none');
