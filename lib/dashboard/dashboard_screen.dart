@@ -28,7 +28,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         CurvedAnimation(
             parent: widget.animationController!,
             curve: const Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
-    // addAllListData();
+    addAllListData();
 
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
@@ -55,9 +55,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    // void addAllListData() {
+  void addAllListData() {
     const int count = 9;
     listViews.add(
       OperationUnitView(
@@ -70,9 +68,6 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
         currentDate: currentDate,
       ),
     );
-    print(currentDate);
-    // }
-    super.didChangeDependencies();
   }
 
   Future<bool> getData() async {
@@ -188,13 +183,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 highlightColor: Colors.transparent,
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(32.0)),
-                                onTap: () {
-                                  setState(() {
-                                    DateTime previousDate = currentDate
-                                        .subtract(const Duration(days: 1));
-                                    currentDate = previousDate;
-                                  });
-                                },
+                                onTap: () {},
                                 child: const Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_left,
@@ -239,13 +228,7 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 highlightColor: Colors.transparent,
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(32.0)),
-                                onTap: () {
-                                  setState(() {
-                                    DateTime nextDate = currentDate
-                                        .add(const Duration(days: 1));
-                                    currentDate = nextDate;
-                                  });
-                                },
+                                onTap: () {},
                                 child: const Center(
                                   child: Icon(
                                     Icons.keyboard_arrow_right,

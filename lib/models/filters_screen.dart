@@ -141,6 +141,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
     }
     _form.currentState?.save();
     setState(() {});
+    // ignore: avoid_print
+    print('saveform id: ' + _editedPatient.id);
     try {
       _form.currentState?.save();
       setState(() {});
