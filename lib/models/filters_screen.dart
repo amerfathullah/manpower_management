@@ -285,27 +285,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 22.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextButton(
-                            onPressed: () {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                              showShiftDialog(context: context);
-                            },
-                            child: Text(
-                              'Choose Shift',
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width > 360
-                                          ? 18
-                                          : 16,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                          ),
                           Text(
-                            '${_editedPatient.shift}',
+                            'Choose Shift:',
                             style: TextStyle(
                                 fontSize:
                                     MediaQuery.of(context).size.width > 360
@@ -313,6 +298,46 @@ class _FiltersScreenState extends State<FiltersScreen> {
                                         : 16,
                                 fontWeight: FontWeight.normal),
                           ),
+                          Radio<Shift>(
+                            value: Shift.A,
+                            groupValue: _editedPatient.shift,
+                            onChanged: (Shift? value) {
+                              setState(() {
+                                _editedPatient.shift = value!;
+                              });
+                            },
+                          ),
+                          const Text('A'),
+                          Radio<Shift>(
+                            value: Shift.B,
+                            groupValue: _editedPatient.shift,
+                            onChanged: (Shift? value) {
+                              setState(() {
+                                _editedPatient.shift = value!;
+                              });
+                            },
+                          ),
+                          const Text('B'),
+                          Radio<Shift>(
+                            value: Shift.C,
+                            groupValue: _editedPatient.shift,
+                            onChanged: (Shift? value) {
+                              setState(() {
+                                _editedPatient.shift = value!;
+                              });
+                            },
+                          ),
+                          const Text('C'),
+                          Radio<Shift>(
+                            value: Shift.D,
+                            groupValue: _editedPatient.shift,
+                            onChanged: (Shift? value) {
+                              setState(() {
+                                _editedPatient.shift = value!;
+                              });
+                            },
+                          ),
+                          const Text('D'),
                         ],
                       ),
                     ),
