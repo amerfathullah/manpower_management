@@ -1,21 +1,42 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../management_app_theme.dart';
 import '../main.dart';
+import '../models/patient.dart';
+import '../models/station.dart';
 
 class MediterranesnDietView extends StatelessWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
-  final BuildContext? ctx;
+  final Station? stationData;
+  final DateTime currentDate;
 
-  const MediterranesnDietView(
-      {Key? key, this.animationController, this.animation, this.ctx})
-      : super(key: key);
+  const MediterranesnDietView({
+    Key? key,
+    this.animationController,
+    this.animation,
+    this.stationData,
+    required this.currentDate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DateFormat dateFormat = DateFormat("dd-MMM");
+    List<Patient> displayedPatient = Patient.patients.where((p) {
+      String now = dateFormat.format(currentDate);
+      String start = dateFormat.format(p.startDate);
+      String end = dateFormat.format(p.endDate);
+      if (currentDate.isAfter(p.startDate) && currentDate.isBefore(p.endDate) ||
+          now.compareTo(start) == 0 ||
+          now.compareTo(end) == 0) {
+        return p.station.contains(stationData!.id);
+      } else {
+        return p.station.contains('none');
+      }
+    }).toList();
     return AnimatedBuilder(
       animation: animationController!,
       builder: (BuildContext? ctx, Widget? child) {
@@ -79,16 +100,16 @@ class MediterranesnDietView extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   left: 4, bottom: 2),
                                               child: Text(
-                                                'Main Station',
+                                                '${stationData?.id}',
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontFamily: ManagementAppTheme
                                                       .fontName,
                                                   fontWeight: FontWeight.w500,
                                                   fontSize: 16,
                                                   letterSpacing: -0.1,
-                                                  color: ManagementAppTheme.grey
-                                                      .withOpacity(0.5),
+                                                  color: ManagementAppTheme
+                                                      .darkerText,
                                                 ),
                                               ),
                                             ),
@@ -140,20 +161,25 @@ class MediterranesnDietView extends StatelessWidget {
                                         color: ManagementAppTheme.darkText,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'Amer Fathullah',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily:
-                                              ManagementAppTheme.fontName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: ManagementAppTheme.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
+                                    ...displayedPatient.map(
+                                      (e) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 6),
+                                          child: Text(
+                                            e.name,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontFamily:
+                                                  ManagementAppTheme.fontName,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                              color: ManagementAppTheme.grey
+                                                  .withOpacity(0.5),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -167,7 +193,7 @@ class MediterranesnDietView extends StatelessWidget {
                               children: <Widget>[
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     const Text(
                                       'Duration',
@@ -180,20 +206,25 @@ class MediterranesnDietView extends StatelessWidget {
                                         color: ManagementAppTheme.darkText,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'start - end',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily:
-                                              ManagementAppTheme.fontName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: ManagementAppTheme.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
+                                    ...displayedPatient.map(
+                                      (e) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 6),
+                                          child: Text(
+                                            '${e.endDate} - ${e.endDate}',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontFamily:
+                                                  ManagementAppTheme.fontName,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                              color: ManagementAppTheme.grey
+                                                  .withOpacity(0.5),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -219,20 +250,25 @@ class MediterranesnDietView extends StatelessWidget {
                                         color: ManagementAppTheme.darkText,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'A',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily:
-                                              ManagementAppTheme.fontName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: ManagementAppTheme.grey
-                                              .withOpacity(0.5),
-                                        ),
-                                      ),
+                                    ...displayedPatient.map(
+                                      (e) {
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 6),
+                                          child: Text(
+                                            '${e.shift}',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontFamily:
+                                                  ManagementAppTheme.fontName,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 12,
+                                              color: ManagementAppTheme.grey
+                                                  .withOpacity(0.5),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),

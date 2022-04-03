@@ -91,14 +91,26 @@ class _OperationUnitViewState extends State<OperationUnitView>
                 ),
                 SizedBox(
                   height: 350,
-                  width: double.infinity,
-                  child: MediterranesnDietView(
-                    animation: Tween<double>(begin: 0.0, end: 1.0).animate(
-                        CurvedAnimation(
-                            parent: animationController!,
-                            curve: const Interval((1 / 9) * 1, 1.0,
-                                curve: Curves.fastOutSlowIn))),
-                    animationController: animationController!,
+                  child: ListView.builder(
+                    itemCount: stationData.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final int count =
+                          stationData.length > 10 ? 10 : stationData.length;
+                      final Animation<double> animation =
+                          Tween<double>(begin: 0.0, end: 1.0).animate(
+                              CurvedAnimation(
+                                  parent: animationController!,
+                                  curve: Interval((1 / count) * index, 1.0,
+                                      curve: Curves.fastOutSlowIn)));
+                      animationController?.forward();
+
+                      return MediterranesnDietView(
+                        stationData: stationData[index],
+                        animation: animation,
+                        animationController: animationController!,
+                        currentDate: widget.currentDate,
+                      );
+                    },
                   ),
                 ),
               ],
@@ -111,13 +123,13 @@ class _OperationUnitViewState extends State<OperationUnitView>
 }
 
 class OperationView extends StatefulWidget {
-  const OperationView(
-      {Key? key,
-      this.stationData,
-      this.animationController,
-      this.animation,
-      required this.currentDate})
-      : super(key: key);
+  const OperationView({
+    Key? key,
+    this.stationData,
+    this.animationController,
+    this.animation,
+    required this.currentDate,
+  }) : super(key: key);
 
   final AnimationController? animationController;
   final Animation<double>? animation;
@@ -174,11 +186,6 @@ class _OperationViewState extends State<OperationView> {
                             showCard(
                                 context: context,
                                 currentDate: widget.currentDate);
-                            setState(() {
-                              MediterranesnDietView(
-                                ctx: context,
-                              );
-                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(
