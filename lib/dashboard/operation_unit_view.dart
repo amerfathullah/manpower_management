@@ -6,6 +6,7 @@ import '../main.dart';
 import '../../main.dart';
 import '../models/patient.dart';
 import '../models/station.dart';
+import '../ui_view/mediterranean_diet_view.dart';
 import '../ui_view/wave_view.dart';
 
 class OperationUnitView extends StatefulWidget {
@@ -58,33 +59,49 @@ class _OperationUnitViewState extends State<OperationUnitView>
           child: Transform(
             transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.mainScreenAnimation!.value), 0.0),
-            child: SizedBox(
-              height: 350,
-              width: double.infinity,
-              child: ListView.builder(
-                padding: const EdgeInsets.only(
-                    top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: stationData.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  final int count =
-                      stationData.length > 10 ? 10 : stationData.length;
-                  final Animation<double> animation =
-                      Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / count) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
-                  animationController?.forward();
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 350,
+                  width: double.infinity,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.only(
+                        top: 0, bottom: 0, right: 16, left: 16),
+                    itemCount: stationData.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      final int count =
+                          stationData.length > 10 ? 10 : stationData.length;
+                      final Animation<double> animation =
+                          Tween<double>(begin: 0.0, end: 1.0).animate(
+                              CurvedAnimation(
+                                  parent: animationController!,
+                                  curve: Interval((1 / count) * index, 1.0,
+                                      curve: Curves.fastOutSlowIn)));
+                      animationController?.forward();
 
-                  return OperationView(
-                    stationData: stationData[index],
-                    animation: animation,
+                      return OperationView(
+                        stationData: stationData[index],
+                        animation: animation,
+                        animationController: animationController!,
+                        currentDate: widget.currentDate,
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 350,
+                  width: double.infinity,
+                  child: MediterranesnDietView(
+                    animation: Tween<double>(begin: 0.0, end: 1.0).animate(
+                        CurvedAnimation(
+                            parent: animationController!,
+                            curve: const Interval((1 / 9) * 1, 1.0,
+                                curve: Curves.fastOutSlowIn))),
                     animationController: animationController!,
-                    currentDate: widget.currentDate,
-                  );
-                },
-              ),
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -157,6 +174,11 @@ class _OperationViewState extends State<OperationView> {
                             showCard(
                                 context: context,
                                 currentDate: widget.currentDate);
+                            setState(() {
+                              MediterranesnDietView(
+                                ctx: context,
+                              );
+                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(
