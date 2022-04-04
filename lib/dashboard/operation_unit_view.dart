@@ -89,6 +89,12 @@ class _OperationUnitViewState extends State<OperationUnitView>
                     },
                   ),
                 ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Divider(
+                    thickness: 2,
+                  ),
+                ),
                 SizedBox(
                   height: 350,
                   child: ListView.builder(
