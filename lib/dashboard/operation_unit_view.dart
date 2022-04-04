@@ -188,10 +188,10 @@ class _OperationViewState extends State<OperationView> {
                             top: 32, left: 8, right: 8, bottom: 16),
                         child: InkWell(
                           onTap: () {
-                            FocusScope.of(context).requestFocus(FocusNode());
-                            showCard(
-                                context: context,
-                                currentDate: widget.currentDate);
+                            // FocusScope.of(context).requestFocus(FocusNode());
+                            // showCard(
+                            //     context: context,
+                            //     currentDate: widget.currentDate);
                           },
                           child: Container(
                             decoration: BoxDecoration(
