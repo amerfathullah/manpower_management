@@ -176,28 +176,28 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {
-                                  setState(() {
-                                    DateTime previousDate = currentDate
-                                        .subtract(const Duration(days: 1));
-                                    currentDate = previousDate;
-                                  });
-                                },
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_left,
-                                    color: ManagementAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // SizedBox(
+                            //   height: 38,
+                            //   width: 38,
+                            //   child: InkWell(
+                            //     highlightColor: Colors.transparent,
+                            //     borderRadius: const BorderRadius.all(
+                            //         Radius.circular(32.0)),
+                            //     onTap: () {
+                            //       setState(() {
+                            //         DateTime previousDate = currentDate
+                            //             .subtract(const Duration(days: 1));
+                            //         currentDate = previousDate;
+                            //       });
+                            //     },
+                            //     child: const Center(
+                            //       child: Icon(
+                            //         Icons.keyboard_arrow_left,
+                            //         color: ManagementAppTheme.grey,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.only(
                                 left: 8,
@@ -227,28 +227,28 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {
-                                  setState(() {
-                                    DateTime nextDate = currentDate
-                                        .add(const Duration(days: 1));
-                                    currentDate = nextDate;
-                                  });
-                                },
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.keyboard_arrow_right,
-                                    color: ManagementAppTheme.grey,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // SizedBox(
+                            //   height: 38,
+                            //   width: 38,
+                            //   child: InkWell(
+                            //     highlightColor: Colors.transparent,
+                            //     borderRadius: const BorderRadius.all(
+                            //         Radius.circular(32.0)),
+                            //     onTap: () {
+                            //       setState(() {
+                            //         DateTime nextDate = currentDate
+                            //             .add(const Duration(days: 1));
+                            //         currentDate = nextDate;
+                            //       });
+                            //     },
+                            //     child: const Center(
+                            //       child: Icon(
+                            //         Icons.keyboard_arrow_right,
+                            //         color: ManagementAppTheme.grey,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       )
