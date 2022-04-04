@@ -57,7 +57,7 @@ class _CustomCalendarViewState extends State<CustomCalendarView> {
         dateList.add(newDate.subtract(Duration(days: previousMothDay - i)));
       }
     }
-    for (int i = 0; i < (42 - previousMothDay); i++) {
+    for (int i = 0; i < (35 - previousMothDay); i++) {
       dateList.add(newDate.add(Duration(days: i + 1)));
     }
   }
