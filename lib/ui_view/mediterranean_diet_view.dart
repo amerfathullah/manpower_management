@@ -25,6 +25,7 @@ class MediterranesnDietView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat("dd-MMM");
+    DateFormat dateFormat2 = DateFormat("d/M");
     List<Patient> displayedPatient = Patient.patients.where((p) {
       String now = dateFormat.format(currentDate);
       String start = dateFormat.format(p.startDate);
@@ -82,8 +83,8 @@ class MediterranesnDietView extends StatelessWidget {
                                         height: 48,
                                         width: 2,
                                         decoration: BoxDecoration(
-                                          color: HexColor('#87A0E5')
-                                              .withOpacity(0.5),
+                                          color: HexColor(
+                                              '${stationData?.endColor}'),
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(4.0)),
                                         ),
@@ -212,7 +213,7 @@ class MediterranesnDietView extends StatelessWidget {
                                           padding:
                                               const EdgeInsets.only(top: 6),
                                           child: Text(
-                                            '${e.endDate} - ${e.endDate}',
+                                            '${dateFormat2.format(e.startDate)} - ${dateFormat2.format(e.endDate)}',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily:
@@ -238,7 +239,7 @@ class MediterranesnDietView extends StatelessWidget {
                               children: <Widget>[
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     const Text(
                                       'Shift',
@@ -256,7 +257,7 @@ class MediterranesnDietView extends StatelessWidget {
                                           padding:
                                               const EdgeInsets.only(top: 6),
                                           child: Text(
-                                            '${e.shift}',
+                                            e.shift.toString().substring(6),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontFamily:
