@@ -1,5 +1,10 @@
+// ignore_for_file: deprecated_member_use
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 import '../management_app_home_screen.dart';
 import '../management_app_theme.dart';
@@ -14,7 +19,7 @@ class FiltersScreen extends StatefulWidget {
   _FiltersScreenState createState() => _FiltersScreenState();
 }
 
-class _FiltersScreenState extends State<FiltersScreen> {
+class _FiltersScreenState extends State<FiltersScreen> with ChangeNotifier {
   final _form = GlobalKey<FormState>();
   List<Station> stationData = Station.station;
 
@@ -29,6 +34,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
     endDate: DateTime.now().add(const Duration(days: 6)),
     station: '',
   );
+  // ignore: unused_field
+  var _isLoading = false;
 
   void showDemoDialog({BuildContext? context}) {
     showDialog<dynamic>(
@@ -140,36 +147,76 @@ class _FiltersScreenState extends State<FiltersScreen> {
       return;
     }
     _form.currentState?.save();
-    setState(() {});
-    // ignore: avoid_print
-    print('saveform id: ' + _editedPatient.id);
+    setState(() {
+      _isLoading = true;
+    });
+    // ignore: unnecessary_null_comparison
     try {
-      _form.currentState?.save();
-      setState(() {});
-      await submitPatient(_editedPatient);
-      setState(() {});
-      Navigator.pushReplacement<void, void>(
-        context,
-        MaterialPageRoute<void>(
-          builder: (BuildContext context) => const ManagementAppHomeScreen(),
+      await addPatient(_editedPatient);
+    } catch (e) {
+      await showDialog<void>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('An error occured!'),
+          content: const Text('Something went wrong.'),
+          actions: [
+            FlatButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: const Text('Okay'))
+          ],
         ),
       );
-    } catch (error) {
-      rethrow;
     }
+    // finally {
+    //   setState(() {
+    //     _isLoading = false;
+    //   });
+    //   Navigator.of(context).pop();
+    // }
+
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.pushReplacement<void, void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const ManagementAppHomeScreen(),
+      ),
+    );
   }
 
-  Future<void> submitPatient(Patient patient) async {
+  Future<void> addPatient(Patient patient) async {
+    final url = Uri.parse(
+        'https://manpower-management-427bf-default-rtdb.asia-southeast1.firebasedatabase.app/patients.json');
     try {
+      final response = await http.post(
+        url,
+        body: json.encode(
+          {
+            'name': patient.name,
+            'shift': patient.shift.toString(),
+            'station': patient.station,
+            'startDate': patient.startDate.toIso8601String(),
+            'endDate': patient.endDate.toIso8601String(),
+          },
+        ),
+      );
       final newPatient = Patient(
-          id: patient.id,
-          name: patient.name,
-          shift: patient.shift,
-          startDate: patient.startDate,
-          endDate: patient.endDate,
-          station: patient.station);
+        id: json.decode(response.body)['name'],
+        name: patient.name,
+        shift: patient.shift,
+        station: patient.station,
+        startDate: patient.startDate,
+        endDate: patient.endDate,
+      );
       Patient.patients.add(newPatient);
+      // _items.insert(0, newChecklist); // at the start of the list
+      notifyListeners();
     } catch (error) {
+      // ignore: avoid_print
+      print(error);
       rethrow;
     }
   }
