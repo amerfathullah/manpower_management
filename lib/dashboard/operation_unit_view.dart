@@ -52,7 +52,7 @@ class _OperationUnitViewState extends State<OperationUnitView>
 
   Future<void> fetchAndSetPatients() async {
     final url = Uri.parse(
-        'https://manpower-management-427bf-default-rtdb.asia-southeast1.firebasedatabase.app/patientss.json');
+        'https://manpower-management-427bf-default-rtdb.asia-southeast1.firebasedatabase.app/patients.json');
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -60,9 +60,6 @@ class _OperationUnitViewState extends State<OperationUnitView>
       if (extractedData == null) {
         return;
       }
-      // final favoriteResponse = await http.get(Uri.parse(
-      //     'https://cefs-5580c-default-rtdb.asia-southeast1.firebasedatabase.app/userFavorites/$userId.json?auth=$authToken'));
-      // final favoriteData = json.decode(favoriteResponse.body);
       Shift? loadedShift;
       final List<Patient> loadedPatients = [];
       extractedData.forEach((prodId, prodData) {
