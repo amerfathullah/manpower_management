@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../management_app_theme.dart';
+import '../models/patient.dart';
 import './operation_unit_view.dart';
 
 class MyDiaryScreen extends StatefulWidget {
@@ -13,7 +17,7 @@ class MyDiaryScreen extends StatefulWidget {
 }
 
 class _MyDiaryScreenState extends State<MyDiaryScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, ChangeNotifier {
   Animation<double>? topBarAnimation;
 
   List<Widget> listViews = <Widget>[];
@@ -75,21 +79,79 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
     return true;
   }
 
+  Future<void> refreshPatients(BuildContext context) async {
+    await fetchAndSetPatients();
+  }
+
+  Future<void> fetchAndSetPatients() async {
+    final url = Uri.parse(
+        'https://manpower-management-427bf-default-rtdb.asia-southeast1.firebasedatabase.app/patients.json');
+    try {
+      final response = await http.get(url);
+      // print(response.body);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+
+      // ignore: unnecessary_null_comparison
+      if (extractedData == null) {
+        return;
+      }
+      Shift? loadedShift;
+      final List<Patient> loadedPatients = [];
+      extractedData.forEach((prodId, prodData) {
+        if (prodData['shift'] == 'Shift.A') {
+          loadedShift = Shift.A;
+        } else if (prodData['shift'] == 'Shift.B') {
+          loadedShift = Shift.B;
+        } else if (prodData['shift'] == 'Shift.C') {
+          loadedShift = Shift.C;
+        } else if (prodData['shift'] == 'Shift.D') {
+          loadedShift = Shift.D;
+        } else {
+          loadedShift = null;
+        }
+        loadedPatients.add(
+          Patient(
+            id: prodId,
+            name: prodData['name'],
+            shift: loadedShift,
+            station: prodData['station'],
+            startDate: DateTime.parse(prodData['startDate']),
+            endDate: DateTime.parse(prodData['endDate']),
+          ),
+        );
+      });
+      Patient.patients = loadedPatients;
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       color: ManagementAppTheme.background,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            getMainListViewUI(),
-            getAppBarUI(),
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
-          ],
-        ),
+        body: FutureBuilder(
+            future: refreshPatients(context),
+            builder: (ctx, snapshot) =>
+                snapshot.connectionState == ConnectionState.waiting
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : RefreshIndicator(
+                        onRefresh: () => refreshPatients(context),
+                        child: Stack(
+                          children: <Widget>[
+                            getMainListViewUI(),
+                            getAppBarUI(),
+                            SizedBox(
+                              height: MediaQuery.of(context).padding.bottom,
+                            )
+                          ],
+                        ),
+                      )),
       ),
     );
   }

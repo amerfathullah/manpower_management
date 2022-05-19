@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import '../management_app_theme.dart';
 import '../main.dart';
@@ -29,7 +26,7 @@ class OperationUnitView extends StatefulWidget {
 }
 
 class _OperationUnitViewState extends State<OperationUnitView>
-    with TickerProviderStateMixin, ChangeNotifier {
+    with TickerProviderStateMixin {
   AnimationController? animationController;
   List<Station> stationData = Station.station;
   List<Patient> patientData = Patient.patients;
@@ -44,52 +41,6 @@ class _OperationUnitViewState extends State<OperationUnitView>
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 50));
     return true;
-  }
-
-  Future<void> refreshPatients(BuildContext context) async {
-    await fetchAndSetPatients();
-  }
-
-  Future<void> fetchAndSetPatients() async {
-    final url = Uri.parse(
-        'https://manpower-management-427bf-default-rtdb.asia-southeast1.firebasedatabase.app/patients.json');
-    try {
-      final response = await http.get(url);
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      // ignore: unnecessary_null_comparison
-      if (extractedData == null) {
-        return;
-      }
-      Shift? loadedShift;
-      final List<Patient> loadedPatients = [];
-      extractedData.forEach((prodId, prodData) {
-        if (prodData['shift'] == 'Shift.A') {
-          loadedShift = Shift.A;
-        } else if (prodData['shift'] == 'Shift.B') {
-          loadedShift = Shift.B;
-        } else if (prodData['shift'] == 'Shift.C') {
-          loadedShift = Shift.C;
-        } else if (prodData['shift'] == 'Shift.D') {
-          loadedShift = Shift.D;
-        } else {
-          loadedShift = null;
-        }
-        loadedPatients.add(
-          Patient(
-            id: prodId,
-            name: prodData['name'],
-            shift: loadedShift,
-            station: prodData['name'],
-            startDate: prodData['name'],
-            endDate: prodData['name'],
-          ),
-        );
-      });
-      Patient.patients = loadedPatients;
-      notifyListeners();
-    } catch (error) {
-      rethrow;
-    }
   }
 
   @override
