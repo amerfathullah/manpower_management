@@ -88,48 +88,48 @@ class Patient with ChangeNotifier {
   //   }
   // }
 
-  Future<void> fetchAndSetPatients() async {
-    final url = Uri.parse(
-        'https://manpower-management-427bf-default-rtdb.asia-southeast1.firebasedatabase.app/patientss.json');
-    try {
-      final response = await http.get(url);
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      // ignore: unnecessary_null_comparison
-      if (extractedData == null) {
-        return;
-      }
-      // final favoriteResponse = await http.get(Uri.parse(
-      //     'https://cefs-5580c-default-rtdb.asia-southeast1.firebasedatabase.app/userFavorites/$userId.json?auth=$authToken'));
-      // final favoriteData = json.decode(favoriteResponse.body);
-      Shift? loadedShift;
-      final List<Patient> loadedPatients = [];
-      extractedData.forEach((prodId, prodData) {
-        if (prodData['shift'] == 'Shift.A') {
-          loadedShift = Shift.A;
-        } else if (prodData['shift'] == 'Shift.B') {
-          loadedShift = Shift.B;
-        } else if (prodData['shift'] == 'Shift.C') {
-          loadedShift = Shift.C;
-        } else if (prodData['shift'] == 'Shift.D') {
-          loadedShift = Shift.D;
-        } else {
-          loadedShift = null;
-        }
-        loadedPatients.add(
-          Patient(
-            id: prodId,
-            name: prodData['name'],
-            shift: loadedShift,
-            station: prodData['name'],
-            startDate: prodData['name'],
-            endDate: prodData['name'],
-          ),
-        );
-      });
-      patients = loadedPatients;
-      notifyListeners();
-    } catch (error) {
-      rethrow;
-    }
-  }
+  // Future<void> fetchAndSetPatients() async {
+  //   final url = Uri.parse(
+  //       'https://manpower-management-427bf-default-rtdb.asia-southeast1.firebasedatabase.app/patientss.json');
+  //   try {
+  //     final response = await http.get(url);
+  //     final extractedData = json.decode(response.body) as Map<String, dynamic>;
+  //     // ignore: unnecessary_null_comparison
+  //     if (extractedData == null) {
+  //       return;
+  //     }
+  //     // final favoriteResponse = await http.get(Uri.parse(
+  //     //     'https://cefs-5580c-default-rtdb.asia-southeast1.firebasedatabase.app/userFavorites/$userId.json?auth=$authToken'));
+  //     // final favoriteData = json.decode(favoriteResponse.body);
+  //     Shift? loadedShift;
+  //     final List<Patient> loadedPatients = [];
+  //     extractedData.forEach((prodId, prodData) {
+  //       if (prodData['shift'] == 'Shift.A') {
+  //         loadedShift = Shift.A;
+  //       } else if (prodData['shift'] == 'Shift.B') {
+  //         loadedShift = Shift.B;
+  //       } else if (prodData['shift'] == 'Shift.C') {
+  //         loadedShift = Shift.C;
+  //       } else if (prodData['shift'] == 'Shift.D') {
+  //         loadedShift = Shift.D;
+  //       } else {
+  //         loadedShift = null;
+  //       }
+  //       loadedPatients.add(
+  //         Patient(
+  //           id: prodId,
+  //           name: prodData['name'],
+  //           shift: loadedShift,
+  //           station: prodData['name'],
+  //           startDate: prodData['name'],
+  //           endDate: prodData['name'],
+  //         ),
+  //       );
+  //     });
+  //     patients = loadedPatients;
+  //     notifyListeners();
+  //   } catch (error) {
+  //     rethrow;
+  //   }
+  // }
 }
