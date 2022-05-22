@@ -74,11 +74,6 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
     );
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
-  }
-
   Future<void> refreshPatients(BuildContext context) async {
     await fetchAndSetPatients();
   }
@@ -130,53 +125,52 @@ class _MyDiaryScreenState extends State<MyDiaryScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ManagementAppTheme.background,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: FutureBuilder(
-            future: refreshPatients(context),
-            builder: (ctx, snapshot) =>
-                snapshot.connectionState == ConnectionState.waiting
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : RefreshIndicator(
-                        onRefresh: () => refreshPatients(context),
-                        child: Stack(
-                          children: <Widget>[
-                            getMainListViewUI(),
-                            getAppBarUI(),
-                            SizedBox(
-                              height: MediaQuery.of(context).padding.bottom,
-                            )
-                          ],
-                        ),
-                      )),
-      ),
-    );
+        color: ManagementAppTheme.background,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            children: <Widget>[
+              getMainListViewUI(),
+              getAppBarUI(),
+              SizedBox(
+                height: MediaQuery.of(context).padding.bottom,
+              )
+            ],
+          ),
+        ));
   }
 
   Widget getMainListViewUI() {
-    return FutureBuilder<bool>(
-      future: getData(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (!snapshot.hasData) {
-          return const SizedBox();
+    return FutureBuilder(
+      future: refreshPatients(context),
+      builder: (ctx, snapshot) {
+        if (snapshot.connectionState == ConnectionState.none) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         } else {
-          return ListView.builder(
-            controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  30,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
+          return RefreshIndicator(
+            onRefresh: () => refreshPatients(context),
+            child: Stack(
+              children: <Widget>[
+                ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  controller: scrollController,
+                  padding: EdgeInsets.only(
+                    top: AppBar().preferredSize.height +
+                        MediaQuery.of(context).padding.top +
+                        30,
+                    bottom: 62 + MediaQuery.of(context).padding.bottom,
+                  ),
+                  itemCount: listViews.length,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    widget.animationController?.forward();
+                    return listViews[index];
+                  },
+                )
+              ],
             ),
-            itemCount: listViews.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              widget.animationController?.forward();
-              return listViews[index];
-            },
           );
         }
       },
